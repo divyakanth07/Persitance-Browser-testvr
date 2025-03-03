@@ -1,0 +1,116 @@
+import { useState } from 'react'
+import { useEffect } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
+
+function App(){
+  return(
+    <div id="screen_container">
+    <div id="screen" style={{overflow: 'hidden'}}> Intializing Hack & Connecting to the CBI...</div> 
+    </div>
+  );
+}
+
+
+export default App
+
+
+
+
+import { useEffect } from 'react';
+
+function App() {
+  useEffect(function initializeEmulator() {
+    window.emulator = new window.V86({
+      wasm_path: '/V86.wasm',
+      screen_container: document.getElementById("screen_container"),
+      bios: {
+        url: "/bios/seabios.bin",
+      },
+      vga_bios: {
+        url: "/bios/vgabios.bin",
+      },
+      boot_order: '0x123',
+      memory_size: 512 * 1024 * 1024,
+      vga_memory_size: 64 * 1024 * 1024,
+      net_device: {
+        type: 'virtio',
+        relay_url: "wss://wisp.mecurywork.shop",
+      },
+      cdrom: {
+        url: "/images/alpine-virt-3.20.3-x86.iso",
+      },
+      autostart: true,
+    });
+  }, []);
+
+  return (
+    <div id="screen_container">
+      <div id="screen" style={{ overflow: 'hidden' }}>Initializing Hack On CBI and connecting...</div>
+      <canvas style={{ display: 'none' }}></canvas>
+    </div>
+  );
+}
+
+export default App;
+import { useEffect } from 'react';
+function App() {
+
+useEffect(function initializeEmulator(){
+
+ window.emulator = new window.V86({
+   wasm_path: '/v86.wasm',
+   screen_container: document.getElementById("screen_container"),
+   bios: {
+     url: "/bios/seabios.bin",
+   },
+   vga_bios: {
+     url: "/bios/vgabios.bin",
+   },
+   hda: { // Hard Disk
+    url:  "/images/fd12-base.img",
+    async:  true,
+    size:  419430400,
+    },
+   autostart: true,
+ });
+}, []);
+
+return (
+     <div id="screen_container">
+       <div id="screen" style={{overflow: 'hidden'}}>Initializing Emulator…</div>
+       <canvas style={{display: 'none'}}></canvas>
+     </div>
+   );
+}
+export default App;
